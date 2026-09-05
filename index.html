@@ -1,118 +1,70 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基德就是你 任務追蹤器</title>
 
-<title>基德就是你 任務追蹤器</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<header>
+        <header class="hero">
 
-<h1>🔍 基德就是你</h1>
-<p>活動任務追蹤器</p>
+            images/kid.png
 
-</header>
+            <div>
+                <h1>🔍 基德就是你</h1>
+                <p>任務追蹤器</p>
 
-<div class="stats">
+                <input type="date" id="selectedDate">
+            </div>
 
-<div class="card blue">
-<h3>今日分數</h3>
-<div id="todayScore">0 分</div>
-</div>
+        </header>
 
-<div class="card gold">
-<h3>總分</h3>
-<div id="totalScore">0 分</div>
-</div>
+        <div class="stats">
 
-<div class="card purple">
-<h3>連續遊玩</h3>
-<div id="streak">1 天</div>
-</div>
+            <div class="card blue">
+                <h3>今日分數</h3>
+                <div id="todayScore">0 分</div>
+            </div>
 
-</div>
+            <div class="card gold">
+                <h3>累積總分</h3>
+                <div id="totalScore">0 分</div>
+            </div>
 
-<table>
+            <div class="card purple">
+                <h3>連續遊玩</h3>
+                <div id="streak">1 天</div>
+            </div>
 
-<thead>
-<tr>
-<th>任務</th>
-<th>數量</th>
-<th>分數</th>
-<th>操作</th>
-</tr>
-</thead>
+        </div>
 
-<tbody>
+        <div class="goals">
 
-<tr>
-<td>基德就是你</td>
-<td id="gameCount">0</td>
-<td id="gameScore">0</td>
-<td>
-<button onclick="change('game',-1)">-1</button>
-<button onclick="change('game',1)">+1</button>
-</td>
-</tr>
+            <div class="goal-card">
 
-<tr>
-<td>修理槌</td>
-<td id="hammerCount">0</td>
-<td id="hammerScore">0</td>
-<td>
-<button onclick="change('hammer',-1)">-1</button>
-<button onclick="change('hammer',1)">+1</button>
-</td>
-</tr>
+                <h3>每日目標</h3>
 
-<tr>
-<td>營養劑箱子</td>
-<td id="boxCount">0</td>
-<td id="boxScore">0</td>
-<td>
-<button onclick="change('box',-1)">-1</button>
-<button onclick="change('box',1)">+1</button>
-</td>
-</tr>
+                <div id="dailyGoal">0 / 20</div>
 
-<tr>
-<td>願望紙條</td>
-<td id="paperCount">0</td>
-<td id="paperScore">0</td>
-<td>
-<button onclick="change('paper',-1)">-1</button>
-<button onclick="change('paper',1)">+1</button>
-</td>
-</tr>
+                <div class="progress">
+                    <div id="dailyBar" class="progress-fill"></div>
+                </div>
 
-</tbody>
+            </div>
 
-</table>
+            <div class="goal-card">
 
-<div class="rules">
+                <h3>20分達標天數</h3>
 
-<h2>計分規則</h2>
+                <div id="goalDays">0 天</div>
 
-<ul>
-<li>修理槌：每 4 個 = 1 分</li>
-<li>營養劑箱子：每 4 個 = 1 分</li>
-<li>願望紙條：每 10 個 = 1 分</li>
-<li>基德就是你：玩 1 場 = 1 分</li>
-</ul>
+            </div>
 
-</div>
-
-</div>
-
-<script src="script.js"></script>
-
-</body>
-</html>
+            <div class="
