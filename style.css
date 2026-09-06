@@ -127,9 +127,8 @@ margin-bottom:30px;
 }
 
 .hero-img{
-
-width:220px;
-
+    width:250px;
+    border-radius:10px;
 }
 
 .goals{
