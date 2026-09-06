@@ -1,43 +1,41 @@
-// 讀取所有資料
-let allData = JSON.parse(
-    localStorage.getItem("kidTracker")
+// =====================
+// 資料初始化
+// =====================
+
+let allData =
+JSON.parse(
+localStorage.getItem("kidTracker")
 ) || {};
 
-// 今天日期
 let currentDate =
-    new Date().toISOString().split("T")[0];
+new Date()
+.toISOString()
+.split("T")[0];
 
-// 設定日期選擇器
-document.getElementById("selectedDate").value =
-    currentDate;
+const dateInput =
+document.getElementById("selectedDate");
 
-// 如果今天沒有資料就建立
-if (!allData[currentDate]) {
+if(dateInput){
+    dateInput.value = currentDate;
+}
+
+if(!allData[currentDate]){
     allData[currentDate] = {
-        game: 0,
-        hammer: 0,
-        box: 0,
-        paper: 0
+        game:0,
+        hammer:0,
+        box:0,
+        paper:0
     };
 }
 
 let data = allData[currentDate];
 
-// 加減次數
-function change(type, value) {
 
-    data[type] += value;
+// =====================
+// 工具函數
+// =====================
 
-    if (data[type] < 0) {
-        data[type] = 0;
-    }
-
-    saveData();
-    updateUI();
-}
-
-// 儲存
-function saveData() {
+function saveData(){
 
     allData[currentDate] = data;
 
@@ -47,154 +45,425 @@ function saveData() {
     );
 }
 
-// 計算分數
-function calculateScore(record) {
+function calculateScore(record){
 
     return (
+
         Math.floor(record.game) +
+
         Math.floor(record.hammer / 4) +
+
         Math.floor(record.box / 4) +
+
         Math.floor(record.paper / 10)
+
     );
+
 }
 
+// =====================
+// 加減按鈕
+// =====================
+
+function change(type,value){
+
+    data[type] += value;
+
+    if(data[type] < 0){
+        data[type] = 0;
+    }
+
+    saveData();
+
+    updateUI();
+
+}
+
+// =====================
 // 更新畫面
-function updateUI() {
+// =====================
 
-    let gameScore =
-        Math.floor(data.game);
+function updateUI(){
 
-    let hammerScore =
-        Math.floor(data.hammer / 4);
+    const gameScore =
+    Math.floor(data.game);
 
-    let boxScore =
-        Math.floor(data.box / 4);
+    const hammerScore =
+    Math.floor(data.hammer / 4);
 
-    let paperScore =
-        Math.floor(data.paper / 10);
+    const boxScore =
+    Math.floor(data.box / 4);
 
-    let total =
-        gameScore +
-        hammerScore +
-        boxScore +
-        paperScore;
+    const paperScore =
+    Math.floor(data.paper / 10);
 
+    const todayTotal =
+    gameScore +
+    hammerScore +
+    boxScore +
+    paperScore;
+
+    // =========
     // 任務數量
-    document.getElementById("gameCount").textContent =
+    // =========
+
+    if(document.getElementById("gameCount")){
+        document.getElementById("gameCount").textContent =
         data.game;
+    }
 
-    document.getElementById("hammerCount").textContent =
+    if(document.getElementById("hammerCount")){
+        document.getElementById("hammerCount").textContent =
         data.hammer;
+    }
 
-    document.getElementById("boxCount").textContent =
+    if(document.getElementById("boxCount")){
+        document.getElementById("boxCount").textContent =
         data.box;
+    }
 
-    document.getElementById("paperCount").textContent =
+    if(document.getElementById("paperCount")){
+        document.getElementById("paperCount").textContent =
         data.paper;
+    }
 
-    // 任務分數
-    document.getElementById("gameScore").textContent =
+    // =========
+    // 分數
+    // =========
+
+    if(document.getElementById("gameScore")){
+        document.getElementById("gameScore").textContent =
         gameScore + "分";
+    }
 
-    document.getElementById("hammerScore").textContent =
+    if(document.getElementById("hammerScore")){
+        document.getElementById("hammerScore").textContent =
         hammerScore + "分";
+    }
 
-    document.getElementById("boxScore").textContent =
+    if(document.getElementById("boxScore")){
+        document.getElementById("boxScore").textContent =
         boxScore + "分";
+    }
 
-    document.getElementById("paperScore").textContent =
+    if(document.getElementById("paperScore")){
+        document.getElementById("paperScore").textContent =
         paperScore + "分";
+    }
 
-    // 今日分數
-    document.getElementById("todayScore").textContent =
-        total + " 分";
+    // =========
+    // 累積計算
+    // =========
 
-    // 計算累積總分
     let totalPoints = 0;
     let goalDays = 0;
 
-    for (let date in allData) {
+    for(let date in allData){
 
-        let score =
-            calculateScore(allData[date]);
+        const score =
+        calculateScore(allData[date]);
 
         totalPoints += score;
 
-        if (score >= 20) {
+        if(score >= 20){
             goalDays++;
         }
+
     }
 
-    // 累積總分
-    document.getElementById("totalScore").textContent =
+    // =========
+    // 頂部統計
+    // =========
+
+    const todayScoreElm =
+    document.getElementById("todayScore");
+
+    if(todayScoreElm){
+        todayScoreElm.textContent =
+        todayTotal + " 分";
+    }
+
+    const totalScoreElm =
+    document.getElementById("totalScore");
+
+    if(totalScoreElm){
+        totalScoreElm.textContent =
         totalPoints + " 分";
+    }
 
-    // 每日目標
-    document.getElementById("dailyGoal").textContent =
-        total + " / 20";
+    const goalDaysElm =
+    document.getElementById("goalDays");
 
-    // 達標天數
-    document.getElementById("goalDays").textContent =
+    if(goalDaysElm){
+        goalDaysElm.textContent =
         goalDays + " 天";
+    }
 
+    // =========
+    // 20分目標
+    // =========
+
+    const dailyGoalElm =
+    document.getElementById("dailyGoal");
+
+    if(dailyGoalElm){
+        dailyGoalElm.textContent =
+        todayTotal + " / 20";
+    }
+
+    // =========
     // 500分目標
-    document.getElementById("goal500").textContent =
-        totalPoints + " / 500";
+    // =========
 
-    // 歷史紀錄
-    let tbody =
-        document.querySelector(
-            "#historyTable tbody"
+    const goal500Elm =
+    document.getElementById("goal500");
+
+    if(goal500Elm){
+        goal500Elm.textContent =
+        totalPoints + " / 500";
+    }
+
+    // =========
+    // 進度條
+    // =========
+
+    const dailyBar =
+    document.getElementById("dailyBar");
+
+    if(dailyBar){
+
+        const dailyPercent =
+        Math.min(
+            (todayTotal / 20) * 100,
+            100
         );
 
-    tbody.innerHTML = "";
+        dailyBar.style.width =
+        dailyPercent + "%";
 
-    let dates =
-        Object.keys(allData).sort().reverse();
+    }
 
-    dates.forEach(date => {
+    const goalBar =
+    document.getElementById("goal500Bar");
 
-        let score =
-            calculateScore(allData[date]);
+    if(goalBar){
 
-        tbody.innerHTML += `
+        const totalPercent =
+        Math.min(
+            (totalPoints / 500) * 100,
+            100
+        );
+
+        goalBar.style.width =
+        totalPercent + "%";
+    }
+
+    // =========
+    // 歷史紀錄
+    // =========
+
+    const tbody =
+    document.querySelector(
+    "#historyTable tbody"
+    );
+
+    if(tbody){
+
+        tbody.innerHTML = "";
+
+        const dates =
+        Object.keys(allData)
+        .sort()
+        .reverse();
+
+        dates.forEach(date=>{
+
+            const score =
+            calculateScore(
+                allData[date]
+            );
+
+            tbody.innerHTML += `
             <tr>
                 <td>${date}</td>
                 <td>${score} 分</td>
             </tr>
-        `;
-    });
+            `;
 
-    saveData();
-}
+        });
 
-// 日期切換
-document
-    .getElementById("selectedDate")
-    .addEventListener(
-        "change",
-        function (e) {
+    }
 
-            currentDate = e.target.value;
+    // =========
+    // 獎勵區
+    // =========
 
-            if (!allData[currentDate]) {
-
-                allData[currentDate] = {
-
-                    game: 0,
-                    hammer: 0,
-                    box: 0,
-                    paper: 0
-
-                };
-            }
-
-            data =
-                allData[currentDate];
-
-            updateUI();
-        }
+    setReward(
+        "reward400",
+        totalPoints,
+        400,
+        "分"
     );
 
+    setReward(
+        "reward450",
+        totalPoints,
+        450,
+        "分"
+    );
+
+    setReward(
+        "reward500",
+        totalPoints,
+        500,
+        "分"
+    );
+
+    setReward(
+        "day3Reward",
+        goalDays,
+        3,
+        "天"
+    );
+
+    setReward(
+        "day6Reward",
+        goalDays,
+        6,
+        "天"
+    );
+
+    setReward(
+        "day9Reward",
+        goalDays,
+        9,
+        "天"
+    );
+
+    setReward(
+        "day15Reward",
+        goalDays,
+        15,
+        "天"
+    );
+
+    setReward(
+        "day20Reward",
+        goalDays,
+        20,
+        "天"
+    );
+
+}
+
+
+// =====================
+// 獎勵函數
+// =====================
+
+function setReward(
+    id,
+    current,
+    target,
+    unit
+){
+
+    const element =
+    document.getElementById(id);
+
+    if(!element) return;
+
+    if(current >= target){
+
+        element.innerHTML =
+        "✅ 已完成";
+
+        element.className =
+        "completed";
+
+    }else{
+
+        element.innerHTML =
+        `還差 ${
+            target-current
+        } ${unit}`;
+
+        element.className =
+        "pending";
+
+    }
+
+}
+
+// =====================
+// 日期切換
+// =====================
+
+if(dateInput){
+
+dateInput.addEventListener(
+"change",
+function(e){
+
+    currentDate =
+    e.target.value;
+
+    if(!allData[currentDate]){
+
+        allData[currentDate] = {
+
+            game:0,
+            hammer:0,
+            box:0,
+            paper:0
+
+        };
+
+    }
+
+    data =
+    allData[currentDate];
+
+    updateUI();
+
+});
+
+}
+
+// =====================
+// 重設按鈕
+// =====================
+
+const resetButton =
+document.getElementById(
+"resetBtn"
+);
+
+if(resetButton){
+
+resetButton.addEventListener(
+"click",
+function(){
+
+    data = {
+
+        game:0,
+        hammer:0,
+        box:0,
+        paper:0
+
+    };
+
+    saveData();
+
+    updateUI();
+
+});
+
+}
+
+// =====================
 // 啟動
+// =====================
+
 updateUI();
