@@ -1,73 +1,428 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基德就是你 任務追蹤器</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>基德就是你任務追蹤器</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <<header class="hero">
+<div class="top-section">
 
-    <img src="kid.png" class="hero-img" alt="基德">
+    <div class="banner">
 
-    <div>
+        <img src="kid.png" class="kid-image">
 
-        <h1>🔍 基德就是你</h1>
+        <div>
 
-        <p>任務追蹤器</p>
+            <h1>基德就是你！</h1>
 
-        <input type="date" id="selectedDate">
+            <p>任務追蹤器</p>
+
+        </div>
 
     </div>
 
-</header>
+    <div class="controls">
 
-        <div class="stats">
+        <input type="date" id="selectedDate">
 
-            <div class="card blue">
-                <h3>今日分數</h3>
-                <div id="todayScore">0 分</div>
+        <button id="resetBtn">
+            重設今日進度
+        </button>
+
+    </div>
+
+</div>
+
+<div class="stats">
+
+    <div class="card blue">
+
+        <h3>今日分數</h3>
+
+        <div id="todayScore">0分</div>
+
+    </div>
+
+    <div class="card gold">
+
+        <h3>累積總分</h3>
+
+        <div id="totalScore">0分</div>
+
+    </div>
+
+    <div class="card purple">
+
+        <h3>連續達標天數</h3>
+
+        <div id="goalDays">0天</div>
+
+    </div>
+
+</div>
+
+<div class="goals">
+
+    <div class="goal-card">
+
+        <h3>每日目標</h3>
+
+        <div id="dailyGoal">0 / 20</div>
+
+        <div class="progress">
+            <div id="dailyBar" class="progress-fill"></div>
+        </div>
+
+    </div>
+
+    <div class="goal-card">
+
+        <h3>500分目標</h3>
+
+        <div id="goal500">0 / 500</div>
+
+        <div class="progress">
+            <div id="goal500Bar" class="progress-fill"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+<th>任務</th>
+<th>數量</th>
+<th>分數</th>
+<th>操作</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>基德就是你</td>
+
+<td id="gameCount">0</td>
+
+<td id="gameScore">0分</td>
+
+<td>
+
+<button onclick="change('game',-1)">-1</button>
+
+<button onclick="change('game',1)">+1</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>修理槌</td>
+
+<td id="hammerCount">0</td>
+
+<td id="hammerScore">0分</td>
+
+<td>
+
+<button onclick="change('hammer',-1)">-1</button>
+
+<button onclick="change('hammer',1)">+1</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>營養劑箱子</td>
+
+<td id="boxCount">0</td>
+
+<td id="boxScore">0分</td>
+
+<td>
+
+<button onclick="change('box',-1)">-1</button>
+
+<button onclick="change('box',1)">+1</button>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>願望紙條</td>
+
+<td id="paperCount">0</td>
+
+<td id="paperScore">0分</td>
+
+<td>
+
+<button onclick="change('paper',-1)">-1</button>
+
+<button onclick="change('paper',1)">+1</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="history">
+
+<h2>每日分數記錄</h2>
+
+<table id="historyTable">
+
+<thead>
+<tr>
+<th>日期</th>
+<th>分數</th>
+</tr>
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="reward-wrapper">
+
+    <!-- 左邊 -->
+
+    <div class="reward-panel">
+
+        <h2>🏆 總分額外獎勵</h2>
+
+        <p class="reward-desc">
+            累積總分達標後可領取獎勵
+        </p>
+
+        <div class="reward-item">
+
+            <div class="reward-score">
+
+                400 分
+
             </div>
 
-            <div class="card gold">
-                <h3>累積總分</h3>
-                <div id="totalScore">0 分</div>
+            <div class="reward-info">
+
+                7大罪福袋禮盒 20個
+
             </div>
 
-            <div class="card purple">
-                <h3>連續遊玩</h3>
-                <div id="streak">1 天</div>
+            <div id="reward400">
+
+                尚未完成
+
             </div>
 
         </div>
 
-        <div class="goals">
+        <div class="reward-item">
 
-            <div class="goal-card">
+            <div class="reward-score">
 
-                <h3>每日目標</h3>
+                450 分
 
-                <div id="dailyGoal">0 / 20</div>
+            </div>
 
-                <div class="progress">
-                    <div id="dailyBar" class="progress-fill"></div>
+            <div class="reward-info">
+
+                7美德氣息福袋 20個
+
+            </div>
+
+            <div id="reward450">
+
+                尚未完成
+
+            </div>
+
+        </div>
+
+        <div class="reward-item">
+
+            <div class="reward-score">
+
+                500 分
+
+            </div>
+
+            <div class="reward-info">
+
+                瀚海福袋
+
+            </div>
+
+            <div id="reward500">
+
+                尚未完成
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- 右邊 -->
+
+    <div class="reward-panel">
+
+        <h2>🎁 本期獎勵</h2>
+
+        <p class="reward-desc">
+
+            每日達成20分累積天數
+
+        </p>
+
+        <div class="reward-grid">
+
+            <div class="reward-card">
+
+                <div class="day-badge">
+
+                    3天
+
+                </div>
+
+                <div class="reward-name">
+
+                    烈焰紅玫瑰箱子 x2
+
+                </div>
+
+                <div id="day3Reward">
+
+                    尚未完成
+
                 </div>
 
             </div>
 
-            <div class="goal-card">
+            <div class="reward-card">
 
-                <h3>20分達標天數</h3>
+                <div class="day-badge">
 
-                <div id="goalDays">0 天</div>
+                    6天
+
+                </div>
+
+                <div class="reward-name">
+
+                    桃樂絲深淵箱子 x2
+
+                </div>
+
+                <div id="day6Reward">
+
+                    尚未完成
+
+                </div>
 
             </div>
 
-            <div class="
+            <div class="reward-card">
+
+                <div class="day-badge">
+
+                    9天
+
+                </div>
+
+                <div class="reward-name">
+
+                    聖育小丑箱子 x2
+
+                </div>
+
+                <div id="day9Reward">
+
+                    尚未完成
+
+                </div>
+
+            </div>
+
+            <div class="reward-card">
+
+                <div class="day-badge">
+
+                    15天
+
+                </div>
+
+                <div class="reward-name">
+
+                    惡夢第4彈轉蛋袋
+
+                </div>
+
+                <div id="day15Reward">
+
+                    尚未完成
+
+                </div>
+
+            </div>
+
+            <div class="reward-card">
+
+                <div class="day-badge">
+
+                    20天
+
+                </div>
+
+                <div class="reward-name">
+
+                    夢幻伊利奧箱子
+
+                </div>
+
+                <div id="day20Reward">
+
+                    尚未完成
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
